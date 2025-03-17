@@ -1,0 +1,94 @@
+#include <iostream> 
+#include <vector>
+#include <string> 
+using namespace std; 
+ 
+class Vehicle { 
+public: 
+    string numberPlate; 
+    string type; 
+     
+    Vehicle(string num, string t) : numberPlate(num), type(t) {} 
+}; 
+ 
+class ParkingLot { 
+private: 
+    vector<Vehicle> vehicles; 
+    int capacity; 
+public: 
+    ParkingLot(int cap) : capacity(cap) {} 
+    bool addVehicle(string numberPlate, string type) { 
+        if (vehicles.size() >= capacity) { 
+            cout << "Parking is full!\n"; 
+            return false; 
+        } 
+        vehicles.push_back(Vehicle(numberPlate, type)); 
+        cout << "Vehicle " << numberPlate << " parked successfully.\n"; 
+        return true; 
+    } 
+    bool removeVehicle(string numberPlate) { 
+        for (size_t i = 0; i < vehicles.size(); ++i) { 
+            if (vehicles[i].numberPlate == numberPlate) { 
+                vehicles.erase(vehicles.begin() + i); 
+                cout << "Vehicle " << numberPlate << " removed successfully.\n"; 
+ 
+
+                return true; 
+            } 
+        } 
+        cout << "Vehicle not found!\n"; 
+        return false; 
+    } 
+    void displayVehicles() { 
+        if (vehicles.empty()) { 
+            cout << "No vehicles parked.\n"; 
+            return; 
+        } 
+        cout << "Currently Parked Vehicles:\n"; 
+        for (const auto& v : vehicles) { 
+            cout << "Number Plate: " << v.numberPlate << ", Type: " << v.type << "\n"; 
+        } 
+    } 
+}; 
+ 
+int main() { 
+    ParkingLot lot(5); 
+    int choice; 
+    string numPlate, type; 
+     
+    do { 
+        cout << "\nParking Lot System\n"; 
+        cout << "1. Park Vehicle\n"; 
+        cout << "2. Remove Vehicle\n"; 
+        cout << "3. Display Parked Vehicles\n"; 
+        cout << "4. Exit\n"; 
+        cout << "Enter your choice: "; 
+        cin >> choice; 
+         
+        switch (choice) { 
+            case 1: 
+
+                cout << "Enter Vehicle Number Plate: "; 
+                cin >> numPlate; 
+                cout << "Enter Vehicle Type (Car/Bike/Truck): "; 
+                cin >> type; 
+                lot.addVehicle(numPlate, type); 
+                break; 
+            case 2: 
+                cout << "Enter Vehicle Number Plate to Remove: "; 
+                cin >> numPlate; 
+                lot.removeVehicle(numPlate); 
+                break; 
+            case 3: 
+                lot.displayVehicles(); 
+                break; 
+            case 4: 
+                cout << "Exiting...\n"; 
+                break; 
+            default: 
+                cout << "Invalid choice, try again!\n"; 
+        } 
+    } while (choice != 4); 
+     
+    return 0; 
+} 
